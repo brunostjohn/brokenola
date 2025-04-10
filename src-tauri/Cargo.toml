@@ -1,0 +1,36 @@
+[package]
+name = "brokenola"
+version = "0.1.0"
+description = "A Tauri App"
+authors = ["you"]
+edition = "2021"
+
+[lib]
+name = "brokenola_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = [] }
+tauri-plugin-opener = "2"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+[target.'cfg(target_os = "macos")'.dependencies]
+whisper-rs = { git = "https://github.com/brunostjohn/whisper-rs.git", features = [
+    "metal",
+] }
+llama_cpp_rs = { git = "https://github.com/brunostjohn/rust-llama.cpp.git", features = [
+    "metal",
+] }
+
+[target.'cfg(not(target_os = "macos"))'.dependencies]
+whisper-rs = { git = "https://github.com/brunostjohn/whisper-rs.git", features = [
+    "cuda",
+    "vulkan",
+] }
+llama_cpp_rs = { git = "https://github.com/brunostjohn/rust-llama.cpp.git", features = [
+    "cuda",
+] }
